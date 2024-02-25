@@ -123,10 +123,12 @@ public class LibrarySystem {
 
         for (Book availableBook : availableBooks) {
             if (availableBook.getTitle().equals(titleOrIBSN) || availableBook.getISBN().equals(titleOrIBSN)) {
-                availableBook.setAvailable(false);
-                unavailableBooks.add(availableBook);
-                availableBooks.remove(availableBook);
-                System.out.println("Book checked out successfully!");
+                if (availableBook.isAvailable()) {
+                    availableBook.setAvailable(false);
+                    unavailableBooks.add(availableBook);
+                    availableBooks.remove(availableBook);
+                    System.out.println("Book checked out successfully!");
+                }
                 bookFound = true;
                 break;
             }
@@ -146,16 +148,18 @@ public class LibrarySystem {
 
         for (Book unavailableBook : unavailableBooks) {
             if (unavailableBook.getTitle().equals(titleOrISBN) || unavailableBook.getISBN().equals(titleOrISBN)) {
-                unavailableBook.setAvailable(true);
-                availableBooks.add(unavailableBook);
-                unavailableBooks.remove(unavailableBook);
-                System.out.println("Book returned successfully!");
+                if (!unavailableBook.isAvailable()){
+                    unavailableBook.setAvailable(true);
+                    availableBooks.add(unavailableBook);
+                    unavailableBooks.remove(unavailableBook);
+                    System.out.println("Book returned successfully!");
+                }
                 bookFound = true;
-                break;                      //NOT TESTED BUT WILL PROBABLY HAVE THE SAME ISSUE
+                break;
             }
         }
         if (!bookFound) {
-            System.out.println("We are not waiting such book to be returned.");
+            System.out.println("Book is not in the system or not to be returned.");
         }
     }
 
